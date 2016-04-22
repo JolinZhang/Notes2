@@ -6,9 +6,14 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.io.FileInputStream;
 
 public class MainActivity extends AppCompatActivity {
     Button write;
@@ -23,8 +28,6 @@ public class MainActivity extends AppCompatActivity {
         write = (Button) findViewById(R.id.button);
         listSavedFiles = (ListView) findViewById(R.id.listNotes);
 
-
-
         //link to write activity
         write.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -35,6 +38,42 @@ public class MainActivity extends AppCompatActivity {
         //list savedFiles;
         ShowSavedFiles();
 
+
+
+        //link to  view items
+        listSavedFiles.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                String title = listSavedFiles.getItemAtPosition(position).toString();
+                try{
+                    FileInputStream fin = openFileInput(title);
+                    int c;
+                    String temp="";
+
+                    while( (c = fin.read()) != -1){
+                        temp = temp + Character.toString((char)c);
+                    }
+
+//                    Toast.makeText(getBaseContext(), temp, Toast.LENGTH_SHORT).show();
+//                    startActivity(new Intent(MainActivity.this, note.class));
+//                    //link to view activities
+                    Intent i = new Intent(MainActivity.this, note.class);
+                    i.putExtra("title",title);
+                    i.putExtra("content", temp);
+                    startActivity(i);
+
+                }
+                catch(Exception e){
+                }
+
+            }
+        });
+    }
+    public void ShowSavedFiles(){
+        savedFiles = getBaseContext().fileList();
+        ArrayAdapter adapter = new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_list_item_1, savedFiles);
+        listSavedFiles.setAdapter(adapter);
 
     }
 
@@ -59,12 +98,7 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-    public void ShowSavedFiles(){
-        savedFiles = getApplicationContext().fileList();
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
-        listSavedFiles.setAdapter(adapter);
 
-    }
 
 
 }

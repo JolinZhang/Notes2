@@ -20,6 +20,10 @@
             android:name=".write"
             android:label="@string/title_activity_write" >
         </activity>
+        <activity
+            android:name=".note"
+            android:label="@string/title_activity_note" >
+        </activity>
     </application>
 
 </manifest>

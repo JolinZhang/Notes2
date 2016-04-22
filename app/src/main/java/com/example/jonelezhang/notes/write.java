@@ -39,12 +39,12 @@ public class write extends AppCompatActivity {
                 content.setText("");
             }
         });
-        //save notes
+        //save button
         submit = (Button) findViewById(R.id.submit);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myFileName = title.getText().toString()+".txt";
+                myFileName = title.getText().toString();
                 myFile = content.getText().toString();
                 try{
                     FileOutputStream fout = openFileOutput(myFileName, Context.MODE_PRIVATE);
@@ -56,8 +56,6 @@ public class write extends AppCompatActivity {
                 }catch (Exception e){
                     e.printStackTrace();
                 }
-
-
 
             }
         });
