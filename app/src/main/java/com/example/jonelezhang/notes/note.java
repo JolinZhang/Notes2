@@ -12,32 +12,40 @@ import android.widget.TextView;
 import org.w3c.dom.Text;
 
 import java.io.File;
+import java.util.Date;
 
 public class note extends AppCompatActivity {
     TextView title;
     TextView content;
+    TextView time;
     Button delete;
 
     String temp1;
     String temp;
+
+    File dir;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note);
         title = (TextView) findViewById(R.id.title);
         content = (TextView)findViewById(R.id.content);
+        time = (TextView) findViewById(R.id.time);
         //get content
         Intent intent = getIntent();
         temp1  = intent.getStringExtra("title");
         temp = intent.getStringExtra("content");
         title.setText(temp1);
         content.setText(temp);
+        dir = getFilesDir();
+        Date lastModDate = new Date(dir.lastModified());
+        time.setText(lastModDate.toString());
         //delete diary
         delete = (Button) findViewById(R.id.delete);
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                File dir = getFilesDir();
+
                 File file = new File(dir, temp1);
                 boolean deleted = file.delete();
                 startActivity(new Intent(note.this, MainActivity.class));
