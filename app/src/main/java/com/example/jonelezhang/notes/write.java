@@ -22,6 +22,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -119,39 +120,8 @@ public class write extends AppCompatActivity {
         super.onActivityResult(requestCode,resultCode,data);
         if(resultCode== RESULT_OK){
             if(requestCode == 1){
-                File f = new File(Environment.getExternalStorageDirectory().toString());
-
-
-                try{
-                    Bitmap bitmap;
-                    BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
-
-                    bitmap = BitmapFactory.decodeFile(f.getAbsolutePath(),
-                            bitmapOptions);
-                    viewImage.setImageBitmap(bitmap);
-
-                    String path = android.os.Environment.getExternalStorageState()+File.separator+"notes";
-                    f.delete();
-                    OutputStream outFile = null;
-                    File file =  new File(path, String.valueOf(System.currentTimeMillis()) + ".jpg");
-                    try{
-                        outFile = new FileOutputStream(file);
-                        bitmap.compress(Bitmap.CompressFormat.JPEG,85,outFile);
-                        outFile.flush();
-                        bitmap = BitmapFactory.decodeFile(file.getAbsolutePath(),
-                                bitmapOptions);
-                        viewImage.setImageBitmap(bitmap);
-                        outFile.close();
-                    }catch (FileNotFoundException e){
-                        e.printStackTrace();
-                    }catch (IOException e){
-                        e.printStackTrace();
-                    }catch(Exception e){
-                        e.printStackTrace();
-                    }
-                } catch(Exception e){
-                    e.printStackTrace();
-                }
+                Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+                viewImage.setImageBitmap(thumbnail);
             }else if(requestCode == 2){
                 Uri selectedImage = data.getData();
                 String[] filePath = {MediaStore.Images.Media.DATA};
