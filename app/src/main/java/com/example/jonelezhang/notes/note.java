@@ -1,11 +1,13 @@
 package com.example.jonelezhang.notes;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -42,13 +44,16 @@ public class note extends AppCompatActivity {
         temp = intent.getStringExtra("content");
         title.setText(temp1);
         content.setText(temp);
+        //time
         dir = getFilesDir();
         Date lastModDate = new Date(dir.lastModified());
         time.setText(lastModDate.toString());
         //get photo
+        Context context = getApplicationContext();
         photo = (ImageView) findViewById(R.id.photo);
-        File filePath = getFileStreamPath(temp1+".jpg");
-        photo.setImageDrawable(Drawable.createFromPath(filePath.toString()));
+//        File mydir = context.getDir("notes_photo", Context.MODE_PRIVATE);
+//        File filePath = context.openFileOutput();
+//        photo.setImageDrawable(Drawable.createFromPath(filePath.toString()));
         //delete diary
         delete = (Button) findViewById(R.id.delete);
         delete.setOnClickListener(new View.OnClickListener() {

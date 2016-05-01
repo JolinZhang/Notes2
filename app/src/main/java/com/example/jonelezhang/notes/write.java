@@ -78,14 +78,18 @@ public class write extends AppCompatActivity {
             public void onClick(View v) {
                 myFileName = title.getText().toString();
                 myFile = content.getText().toString();
-                myPicture = title.getText().toString()+".jpg";
                 try{
+                    Context context = getApplicationContext();
                     //save the text
-                    FileOutputStream fout = openFileOutput(myFileName, Context.MODE_PRIVATE);
+                    File notes = context.getDir("notes", Context.MODE_PRIVATE);
+                    File myNotes = new File(notes,myFileName);
+                    FileOutputStream fout = new FileOutputStream(myNotes);
                     fout.write(myFile.getBytes());
                     fout.close();
                     //save the picture
-                    FileOutputStream fo = openFileOutput(myPicture, Context.MODE_PRIVATE);
+                    File notes_photo = context.getDir("notes_photo", Context.MODE_PRIVATE);
+                    File myNotes_photo = new File(notes_photo,myFileName+".jpg");
+                    FileOutputStream fo = new FileOutputStream(myNotes_photo);
                     thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, fo);
                     fo.close();
                     Toast.makeText(getBaseContext(), "file saved", Toast.LENGTH_SHORT).show();

@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ListView;
 
 
+import java.io.File;
 import java.io.FileInputStream;
 
 public class MainActivity extends AppCompatActivity {
@@ -66,7 +67,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
     public void ShowSavedFiles(){
-        savedFiles = getBaseContext().fileList();
+        File dirFiles = getDir("notes",MODE_PRIVATE);
+        savedFiles = dirFiles.list();
         ArrayAdapter adapter = new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_list_item_1, savedFiles);
         listSavedFiles.setAdapter(adapter);
     }
