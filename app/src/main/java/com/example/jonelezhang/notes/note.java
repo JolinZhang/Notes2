@@ -1,12 +1,16 @@
 package com.example.jonelezhang.notes;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -19,6 +23,7 @@ public class note extends AppCompatActivity {
     TextView content;
     TextView time;
     Button delete;
+    ImageView photo;
 
     String temp1;
     String temp;
@@ -40,6 +45,10 @@ public class note extends AppCompatActivity {
         dir = getFilesDir();
         Date lastModDate = new Date(dir.lastModified());
         time.setText(lastModDate.toString());
+        //get photo
+        photo = (ImageView) findViewById(R.id.photo);
+        File filePath = getFileStreamPath(temp1+".jpg");
+        photo.setImageDrawable(Drawable.createFromPath(filePath.toString()));
         //delete diary
         delete = (Button) findViewById(R.id.delete);
         delete.setOnClickListener(new View.OnClickListener() {

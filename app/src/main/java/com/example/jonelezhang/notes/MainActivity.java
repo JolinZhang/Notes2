@@ -19,7 +19,6 @@ public class MainActivity extends AppCompatActivity {
 
     ListView listSavedFiles;
     String[] savedFiles;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,42 +37,38 @@ public class MainActivity extends AppCompatActivity {
         ShowSavedFiles();
 
 
-
         //link to  view items
         listSavedFiles.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
                 String title = listSavedFiles.getItemAtPosition(position).toString();
-                try{
-                    FileInputStream fin = openFileInput(title);
-                    int c;
-                    String temp="";
+                    try {
+                        FileInputStream fin = openFileInput(title);
+                        int c;
+                        String temp = "";
 
-                    while( (c = fin.read()) != -1){
-                        temp = temp + Character.toString((char)c);
-                    }
+                        while ((c = fin.read()) != -1) {
+                            temp = temp + Character.toString((char) c);
+                        }
 
 //                    Toast.makeText(getBaseContext(), temp, Toast.LENGTH_SHORT).show();
 //                    startActivity(new Intent(MainActivity.this, note.class));
 //                    //link to view activities
-                    Intent i = new Intent(MainActivity.this, note.class);
-                    i.putExtra("title",title);
-                    i.putExtra("content", temp);
-                    startActivity(i);
+                        Intent i = new Intent(MainActivity.this, note.class);
+                        i.putExtra("title", title);
+                        i.putExtra("content", temp);
+                        startActivity(i);
+
+                    } catch (Exception e) {
+                    }
 
                 }
-                catch(Exception e){
-                }
-
-            }
         });
     }
     public void ShowSavedFiles(){
         savedFiles = getBaseContext().fileList();
         ArrayAdapter adapter = new ArrayAdapter<String>(MainActivity.this,android.R.layout.simple_list_item_1, savedFiles);
         listSavedFiles.setAdapter(adapter);
-
     }
 
     @Override

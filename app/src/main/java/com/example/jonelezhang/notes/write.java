@@ -39,6 +39,8 @@ public class write extends AppCompatActivity {
 
     String myFileName;
     String myFile;
+    Bitmap thumbnail;
+    String myPicture;
 
 
 
@@ -57,6 +59,18 @@ public class write extends AppCompatActivity {
                 content.setText("");
             }
         });
+        // choose photo
+        photo = (Button) findViewById( R.id.photo);
+        //save the photo
+        viewImage = (ImageView) findViewById(R.id.viewImage);
+        photo.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        selectImage();
+                    }
+                }
+        );
         //save button
         submit = (Button) findViewById(R.id.submit);
         submit.setOnClickListener(new View.OnClickListener() {
@@ -64,10 +78,16 @@ public class write extends AppCompatActivity {
             public void onClick(View v) {
                 myFileName = title.getText().toString();
                 myFile = content.getText().toString();
+                myPicture = title.getText().toString()+".jpg";
                 try{
+                    //save the text
                     FileOutputStream fout = openFileOutput(myFileName, Context.MODE_PRIVATE);
                     fout.write(myFile.getBytes());
                     fout.close();
+                    //save the picture
+                    FileOutputStream fo = openFileOutput(myPicture, Context.MODE_PRIVATE);
+                    thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, fo);
+                    fo.close();
                     Toast.makeText(getBaseContext(), "file saved", Toast.LENGTH_SHORT).show();
                     //redirect to MainActivity.
                     startActivity(new Intent(write.this, MainActivity.class));
@@ -77,18 +97,7 @@ public class write extends AppCompatActivity {
 
             }
         });
-        // choose photo
-        photo = (Button) findViewById( R.id.photo);
-        //save the photo
-        viewImage = (ImageView) findViewById(R.id.viewImage);
-        photo.setOnClickListener(
-            new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    selectImage();
-                }
-            }
-        );
+
 
 
     }
@@ -120,7 +129,7 @@ public class write extends AppCompatActivity {
         super.onActivityResult(requestCode,resultCode,data);
         if(resultCode== RESULT_OK){
             if(requestCode == 1){
-                Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+                thumbnail = (Bitmap) data.getExtras().get("data");
                 viewImage.setImageBitmap(thumbnail);
             }else if(requestCode == 2){
                 Uri selectedImage = data.getData();
