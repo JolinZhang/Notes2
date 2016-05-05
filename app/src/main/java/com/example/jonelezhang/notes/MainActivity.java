@@ -1,5 +1,6 @@
 package com.example.jonelezhang.notes;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -44,7 +45,9 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String title = listSavedFiles.getItemAtPosition(position).toString();
                     try {
-                        FileInputStream fin = openFileInput(title);
+                        File dirFiles = getDir("notes", MODE_PRIVATE);
+                        File path = new File(dirFiles,title);
+                        FileInputStream fin = new FileInputStream(path);
                         int c;
                         String temp = "";
 

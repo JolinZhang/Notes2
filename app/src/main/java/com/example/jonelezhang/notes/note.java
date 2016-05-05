@@ -18,6 +18,8 @@ import android.widget.TextView;
 import org.w3c.dom.Text;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.Date;
 
 public class note extends AppCompatActivity {
@@ -49,11 +51,17 @@ public class note extends AppCompatActivity {
         Date lastModDate = new Date(dir.lastModified());
         time.setText(lastModDate.toString());
         //get photo
-        Context context = getApplicationContext();
-        photo = (ImageView) findViewById(R.id.photo);
-//        File mydir = context.getDir("notes_photo", Context.MODE_PRIVATE);
-//        File filePath = context.openFileOutput();
-//        photo.setImageDrawable(Drawable.createFromPath(filePath.toString()));
+//        Context context = getApplicationContext();
+//        try {
+//            File f=new File("notes_photo", temp1+".jpg");
+//            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
+//            photo = (ImageView) findViewById(R.id.photo);
+//            photo.setImageBitmap(b);
+//        }
+//        catch (FileNotFoundException e)
+//        {
+//            e.printStackTrace();
+//        }printStackTrace
         //delete diary
         delete = (Button) findViewById(R.id.delete);
         delete.setOnClickListener(new View.OnClickListener() {

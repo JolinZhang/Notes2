@@ -40,7 +40,7 @@ public class write extends AppCompatActivity {
     String myFileName;
     String myFile;
     Bitmap thumbnail;
-    String myPicture;
+    String label="0";
 
 
 
@@ -81,17 +81,21 @@ public class write extends AppCompatActivity {
                 try{
                     Context context = getApplicationContext();
                     //save the text
-                    File notes = context.getDir("notes", Context.MODE_PRIVATE);
+                    File notes = getDir("notes", Context.MODE_PRIVATE);
                     File myNotes = new File(notes,myFileName);
                     FileOutputStream fout = new FileOutputStream(myNotes);
                     fout.write(myFile.getBytes());
                     fout.close();
+
+
                     //save the picture
-                    File notes_photo = context.getDir("notes_photo", Context.MODE_PRIVATE);
-                    File myNotes_photo = new File(notes_photo,myFileName+".jpg");
-                    FileOutputStream fo = new FileOutputStream(myNotes_photo);
-                    thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, fo);
-                    fo.close();
+                    if(label.equals("1")) {
+                        File notes_photo = context.getDir("notes_photo", Context.MODE_PRIVATE);
+                        File myNotes_photo = new File(notes_photo, myFileName + ".jpg");
+                        FileOutputStream fo = new FileOutputStream(myNotes_photo);
+                        thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, fo);
+                        fo.close();
+                    }
                     Toast.makeText(getBaseContext(), "file saved", Toast.LENGTH_SHORT).show();
                     //redirect to MainActivity.
                     startActivity(new Intent(write.this, MainActivity.class));
@@ -135,24 +139,23 @@ public class write extends AppCompatActivity {
             if(requestCode == 1){
                 thumbnail = (Bitmap) data.getExtras().get("data");
                 viewImage.setImageBitmap(thumbnail);
+                label ="1";
             }else if(requestCode == 2){
                 Uri selectedImage = data.getData();
                 String[] filePath = {MediaStore.Images.Media.DATA};
-                Cursor c = getContentResolver().query(selectedImage, filePath,null,null,null);
+                Cursor c = getContentResolver().query(selectedImage, filePath, null, null, null);
                 c.moveToFirst();
                 int columnIndex = c.getColumnIndex(filePath[0]);
                 String picturePath=c.getString(columnIndex);
                 c.close();
-                File imgFile = new  File(picturePath);
-                Bitmap thumbnail =(BitmapFactory.decodeFile(imgFile.getAbsolutePath()));
+
+
+                thumbnail =(BitmapFactory.decodeFile(picturePath));
                 viewImage.setImageBitmap(thumbnail);
+                label="1";
             }
         }
     }
-
-
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
