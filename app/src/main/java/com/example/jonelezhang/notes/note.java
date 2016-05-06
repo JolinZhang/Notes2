@@ -51,24 +51,24 @@ public class note extends AppCompatActivity {
         Date lastModDate = new Date(dir.lastModified());
         time.setText(lastModDate.toString());
         //get photo
-//        Context context = getApplicationContext();
-//        try {
-//            File f=new File("notes_photo", temp1+".jpg");
-//            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
-//            photo = (ImageView) findViewById(R.id.photo);
-//            photo.setImageBitmap(b);
-//        }
-//        catch (FileNotFoundException e)
-//        {
-//            e.printStackTrace();
-//        }printStackTrace
+        try {
+            File dirFiles = getDir("notes_photo", MODE_PRIVATE);
+            File f=new File(dirFiles, temp1+".jpg");
+            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
+            photo = (ImageView) findViewById(R.id.photo);
+            photo.setImageBitmap(b);
+        }
+        catch (FileNotFoundException e)
+        {
+            e.printStackTrace();
+        }
         //delete diary
         delete = (Button) findViewById(R.id.delete);
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                File file = new File(dir, temp1);
+                File dirFiles = getDir("notes", MODE_PRIVATE);
+                File file = new File(dirFiles, temp1);
                 boolean deleted = file.delete();
                 startActivity(new Intent(note.this, MainActivity.class));
 

@@ -86,8 +86,6 @@ public class write extends AppCompatActivity {
                     FileOutputStream fout = new FileOutputStream(myNotes);
                     fout.write(myFile.getBytes());
                     fout.close();
-
-
                     //save the picture
                     if(label.equals("1")) {
                         File notes_photo = context.getDir("notes_photo", Context.MODE_PRIVATE);
@@ -95,6 +93,7 @@ public class write extends AppCompatActivity {
                         FileOutputStream fo = new FileOutputStream(myNotes_photo);
                         thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, fo);
                         fo.close();
+                        label="0";
                     }
                     Toast.makeText(getBaseContext(), "file saved", Toast.LENGTH_SHORT).show();
                     //redirect to MainActivity.
@@ -148,9 +147,9 @@ public class write extends AppCompatActivity {
                 int columnIndex = c.getColumnIndex(filePath[0]);
                 String picturePath=c.getString(columnIndex);
                 c.close();
-
-
-                thumbnail =(BitmapFactory.decodeFile(picturePath));
+                Bitmap resized =(BitmapFactory.decodeFile(picturePath));
+                thumbnail = Bitmap.createScaledBitmap(
+                        resized, 96, 160, false);
                 viewImage.setImageBitmap(thumbnail);
                 label="1";
             }
