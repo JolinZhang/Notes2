@@ -47,8 +47,9 @@ public class note extends AppCompatActivity {
         title.setText(temp1);
         content.setText(temp);
         //time
-        dir = getFilesDir();
-        Date lastModDate = new Date(dir.lastModified());
+        dir = getDir("notes", MODE_PRIVATE);
+        File d = new File(dir,temp1);
+        Date lastModDate = new Date(d.lastModified());
         time.setText(lastModDate.toString());
         //get photo
         try {

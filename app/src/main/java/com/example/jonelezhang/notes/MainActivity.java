@@ -62,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
                         i.putExtra("title", title);
                         i.putExtra("content", temp);
                         startActivity(i);
-
                     } catch (Exception e) {
                     }
 
@@ -76,6 +75,11 @@ public class MainActivity extends AppCompatActivity {
         listSavedFiles.setAdapter(adapter);
     }
 
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+        finish();
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
